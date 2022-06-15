@@ -87,7 +87,7 @@ async function getQuestionDetail(questions) {
       // prevent firing off all requests at once
       await sleep(2000 * i);
 
-      console.log(`#${i} - Collecting ${title}...`);
+      console.log(`#${i + 1} - Collecting ${title}...`);
 
       const response = await httprequest({
         options: {
