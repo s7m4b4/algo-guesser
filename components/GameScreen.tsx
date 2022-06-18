@@ -1,12 +1,19 @@
+import * as React from "react";
 import { useEffect, useState } from "react";
+import { GameStateContextType } from "../@types/gamestate";
+import { SettingsContextType } from "../@types/settings";
 import MultipleChoice from "../components/MultipleChoice";
+import { GameContext } from "../context/GameState";
+import { SettingsContext } from "../context/Settings";
 import { Question } from "../lib/question";
 import QuestionBox from "./QuestionBox";
 import Spinner from "./Spinner";
 
 
 export default function GameScreen() {
-  const [score, setScore] = useState(0);
+  const { score, setScore } = React.useContext(GameContext) as GameStateContextType
+  const { difficulty } = React.useContext(SettingsContext) as SettingsContextType
+
   const [answers, setAnswers] = useState<string[]>([])
   const [submitted, setSubmitted] = useState(false)
   const [choices, setChoices] = useState<string[]>([])
@@ -14,10 +21,11 @@ export default function GameScreen() {
   const [isLoading, setLoading] = useState(false)
 
   async function fetchQuestions() {
-      const request = await fetch("api/question")
-      const {question, choices} = await request.json()
-      setQuestion(question)
-      setChoices(choices)
+    const difficultyQuery = difficulty.map((d) => `difficulty=${d["label"]}`)
+    const request = await fetch(`api/question?${difficultyQuery}`)
+    const { question, choices } = await request.json()
+    setQuestion(question)
+    setChoices(choices)
   }
 
   useEffect(() => {
@@ -53,7 +61,7 @@ export default function GameScreen() {
   }
 
   return (
-    <div className="flex items-center justify-between p-4">
+    <div className="flex items-center justify-between">
       <QuestionBox question={question} />
 
       <div className="flex flex-col p-4 space-y-4">
@@ -66,15 +74,12 @@ export default function GameScreen() {
           <MultipleChoice selected={answers} choices={choices} question={question} submitted={submitted} click={handleAnswers} />
           <button disabled={!answers.length || submitted} className="w-full py-2 font-semibold rounded-full bg-gray-50 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed" onClick={checkAnswer}>Check</button>
         </div>
-        <span className="absolute top-0 text-3xl font-black tracking-wide text-white right-20">Score: {score}</span>
       </div>
 
-      <div className="w-1/12">
-        {submitted &&
-          <button className="px-4 py-5 text-4xl text-blue-400 bg-white rounded-full" onClick={nextRound}>
-            ➜
-          </button>
-        }
+      <div className="w-1/8">
+        <button disabled={!submitted} className="px-4 py-5 text-4xl text-blue-400 bg-white rounded-full disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed" onClick={nextRound}>
+          ➜
+        </button>
       </div>
     </div>
   );
