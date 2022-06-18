@@ -1,7 +1,7 @@
 import { Question } from "../lib/question";
 
 interface MultipleChoiceProps {
-    click?: any;
+    click?: (choice: string) => void;
     choices: string[];
     selected: string[];
     question: Question;
@@ -35,7 +35,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ click, choices, selecte
            className={`${selected.includes(choice) ? bgColour.active : bgColour.inactive}
            ${correctAnswers(choice)}
            relative bg-gray-50 px-4 py-1 rounded shadow-lg text-center text-lg font-semibold select-none transition duration-100 hover:cursor-pointer hover:bg-gray-50 disabled:pointer-events-none`}
-           onClick={() => click(choice)} key={choice}>
+           onClick={() => click?.(choice)} key={choice}>
             {choice}
 
             {submitted && question.topicTags.includes(choice) && selected.includes(choice) &&

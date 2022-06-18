@@ -1,3 +1,5 @@
+import * as React from "react";
+
 interface PillProps {
     text: string;
 }
@@ -20,9 +22,10 @@ const Pill: React.FC<PillProps> = ({ text }) => {
   }
 
   return (
-    <span className={`${className(text)} rounded-lg px-2 text-xs py-0.5 font-bold`}>{text}</span>
+    <span className={`${className(text)} rounded-lg px-2 text-xs py-0.5 font-bold`}>
+      {text}
+    </span>
   )
-  
 }
 
 export default Pill
