@@ -5,4 +5,6 @@ export type GameState = "landing" | "game" | "end";
 export interface GameStateContextType {
   gameState: GameState;
   setGameState: React.Dispatch;
+  score: number;
+  setScore: React.Dispatch;
 }
