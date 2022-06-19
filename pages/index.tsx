@@ -1,6 +1,6 @@
-import GameStateProvider from "../context/GameState"
-import ScreenSwitcher from "../components/ScreenSwitcher";
-import SettingsProvider from "../context/Settings";
+import GameStateProvider from '../context/GameState';
+import ScreenSwitcher from '../components/ScreenSwitcher';
+import SettingsProvider from '../context/Settings';
 
 export default function Index() {
   return (
