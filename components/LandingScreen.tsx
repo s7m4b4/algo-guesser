@@ -8,7 +8,7 @@ export default function LandingScreen() {
 
   return (
     <div className="flex flex-col space-y-4">
-      <h1 className="pb-2 text-4xl font-semibold tracking-widest text-center text-gray-100 border-b-4 border-gray-100">
+      <h1 className="pb-2 text-4xl tracking-widest text-center text-gray-100 border-b-2 border-gray-100 title">
         AlgoGuesser
       </h1>
       <Settings />
