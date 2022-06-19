@@ -12,7 +12,7 @@ const QuestionBox: React.FC<QuestionProps> = ({ question }) => {
 
   return (
     <motion.div
-      className="flex flex-col w-1/2 max-w-2xl max-h-screen px-8 py-4 overflow-y-auto rounded shadow-xl bg-gray-50"
+      className="flex flex-col max-w-2xl max-h-screen px-8 py-4 overflow-y-auto rounded shadow-xl bg-gray-50"
       initial={{ opacity: 0, y: '50%', scale: 0.5 }}
       animate={{ y: 0, opacity: 1, scale: 1 }}
       transition={{ duriation: 0.1, ease: 'easeOut' }}

@@ -64,7 +64,7 @@ export default function GameScreen() {
 
       <div className="flex flex-col p-4 space-y-4">
         <div className="flex flex-col space-y-1 text-center text-white">
-          <span className="text-3xl font-extrabold">How would you solve this?</span>
+          <span className="font-extrabold lg:text-3xl">How would you solve this?</span>
           <span className="text-xs italic font-semibold">(Select up to {question.topicTags.length})</span>
         </div>
 
@@ -84,16 +84,15 @@ export default function GameScreen() {
             Check
           </button>
         </div>
-      </div>
-
-      <div className="w-1/8">
-        <button
-          disabled={!submitted}
-          className="px-4 py-5 text-4xl text-blue-400 bg-white rounded-full disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
-          onClick={nextRound}
-        >
-          ➜
-        </button>
+        <div className="flex justify-end">
+          <button
+            disabled={!submitted}
+            className="px-4 py-2 text-2xl text-blue-400 bg-white rounded-full disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
+            onClick={nextRound}
+          >
+            ➜
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import SettingsProvider from '../context/Settings';
 
 export default function Index() {
   return (
-    <div className="flex items-center justify-center h-screen p-12 bg-gradient-to-br from-indigo-900 via-blue-500 to-cyan-400">
+    <div className="flex items-center justify-center h-screen bg-gradient-to-br from-indigo-900 via-blue-500 to-cyan-400">
       <GameStateProvider>
         <SettingsProvider>
           <ScreenSwitcher />
