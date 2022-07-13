@@ -1,7 +1,10 @@
+import { Button, SimpleGrid, Text } from '@chakra-ui/react';
+import { FiCheckCircle, FiCircle, FiDisc, FiXCircle } from 'react-icons/fi';
+
 import { Question } from '../lib/question';
 
 interface MultipleChoiceProps {
-  click?: (choice: string) => void;
+  click: (choice: string) => void;
   choices: string[];
   selected: string[];
   question: Question;
@@ -9,44 +12,60 @@ interface MultipleChoiceProps {
 }
 
 const MultipleChoice: React.FC<MultipleChoiceProps> = ({ click, choices, selected, question, submitted }) => {
-  const bgColour = {
-    inactive: '',
-    active: 'ring-4 ring-yellow-400'
-  };
-
   const correctAnswers = (choice: string) => {
     if (!submitted) {
-      return;
+      return {};
     }
 
     if (question.topicTags.includes(choice)) {
-      return 'bg-green-500 text-white border-green-900';
+      return {
+        pointerEvents: 'none',
+        backgroundColor: 'green.300',
+        borderColor: 'green.400',
+        color: 'green.800'
+      };
     } else {
-      return 'bg-red-500 text-white border-red-800';
+      return { pointerEvents: 'none', backgroundColor: 'red.300', borderColor: 'red.400', color: 'red.800' };
+    }
+  };
+
+  const icon = (choice: string) => {
+    if (selected.includes(choice)) {
+      if (submitted && question.topicTags.includes(choice) && selected.includes(choice)) {
+        return <FiCheckCircle />;
+      }
+      return <FiDisc />;
+    } else {
+      if (submitted && !question.topicTags.includes(choice)) {
+        return <FiXCircle />;
+      }
+      return <FiCircle />;
     }
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+    <SimpleGrid padding="1" overflowY="scroll" columns={{ sm: 1, md: 2 }} spacing="4">
       {choices.map((choice: string) => (
-        <button
+        <Button
           disabled={submitted || (selected.length >= question.topicTags.length && !selected.includes(choice))}
-          className={`${selected.includes(choice) ? bgColour.active : bgColour.inactive}
-           ${correctAnswers(choice)}
-           relative bg-gray-50 sm:px-1 lg:px-4 py-1 rounded shadow-lg text-center text-xs lg:text-lg font-semibold break-words select-none transition duration-100 hover:cursor-pointer hover:bg-gray-50 disabled:pointer-events-none`}
-          onClick={() => click?.(choice)}
+          rightIcon={icon(choice)}
+          rounded="sm"
+          justifyContent="space-between"
+          border="1px"
+          color="black"
+          padding={['1.5', '2']}
+          bg="white"
+          bgColor={correctAnswers(choice)}
+          onClick={() => click(choice)}
           key={choice}
+          sx={{ _disabled: correctAnswers(choice) }}
         >
-          {choice}
-
-          {submitted && question.topicTags.includes(choice) && selected.includes(choice) && (
-            <span className="absolute w-6 h-6 text-green-400 align-middle bg-green-800 rounded-full -right-2 -top-2">
-              ✔
-            </span>
-          )}
-        </button>
+          <Text noOfLines={1} fontSize={['0.5em', 'xs']}>
+            {choice}
+          </Text>
+        </Button>
       ))}
-    </div>
+    </SimpleGrid>
   );
 };
 

@@ -1,33 +1,35 @@
 import * as React from 'react';
-import { SettingsContextType, DifficultyOptions } from '../@types/settings';
-import { options } from '../components/Settings';
-import { MultiValue } from 'react-select';
+
+import { DifficultyOptions, SettingsContextType } from '../types/settings';
+import { difficultyOptions } from '../components/Settings';
 
 export const SettingsContext = React.createContext<SettingsContextType | null>(null);
 
 type SettingsProviderProps = {
   children: React.ReactNode;
-}
+};
 
 const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) => {
-  const [showDifficulty, setShowDifficulty] = React.useState(true)
-  const [showTitle, setShowTitle] = React.useState(true)
-  const [difficulty, setDifficulty] = React.useState<DifficultyOptions[]>(options)
+  const [showDifficulty, setShowDifficulty] = React.useState(false);
+  const [showTitle, setShowTitle] = React.useState(false);
+  const [difficulty, setDifficulty] = React.useState<DifficultyOptions[]>(difficultyOptions);
 
   const handleShowDifficulty = () => {
-    setShowDifficulty(!showDifficulty)
-  }
+    setShowDifficulty(!showDifficulty);
+  };
 
   const handleShowTitle = () => {
-    setShowTitle(!showTitle)
-  }
+    setShowTitle(!showTitle);
+  };
 
-  const handleDifficulty = (value: MultiValue<DifficultyOptions>) => {
-    setDifficulty(value as DifficultyOptions[]);
-  }
+  const handleDifficulty = (value: any) => {
+    setDifficulty(value);
+  };
 
   return (
-    <SettingsContext.Provider value={{ showDifficulty, handleShowDifficulty, showTitle, handleShowTitle, difficulty, handleDifficulty }}>
+    <SettingsContext.Provider
+      value={{ showDifficulty, handleShowDifficulty, showTitle, handleShowTitle, difficulty, handleDifficulty }}
+    >
       {children}
     </SettingsContext.Provider>
   );

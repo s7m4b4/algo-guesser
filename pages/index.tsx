@@ -1,15 +1,18 @@
 import GameStateProvider from '../context/GameState';
 import ScreenSwitcher from '../components/ScreenSwitcher';
 import SettingsProvider from '../context/Settings';
+import { Container, Flex } from '@chakra-ui/react';
 
 export default function Index() {
   return (
-    <div className="flex items-center justify-center h-screen bg-gradient-to-br from-indigo-900 via-blue-500 to-cyan-400">
-      <GameStateProvider>
-        <SettingsProvider>
-          <ScreenSwitcher />
-        </SettingsProvider>
-      </GameStateProvider>
-    </div>
+    <Container minW="full" bgGradient="linear(to-br, #313186, #3987f5, #23d0ee)">
+      <Flex h="100vh" justifyContent="center" alignItems="center">
+        <GameStateProvider>
+          <SettingsProvider>
+            <ScreenSwitcher />
+          </SettingsProvider>
+        </GameStateProvider>
+      </Flex>
+    </Container>
   );
 }

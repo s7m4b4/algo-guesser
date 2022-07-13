@@ -1,29 +1,61 @@
-import { motion } from 'framer-motion';
-import { Question } from '../lib/question';
-import Pill from './Pill';
 import * as React from 'react';
+import { Badge, Box, Flex, Link, Text } from '@chakra-ui/react';
+import { FiExternalLink } from 'react-icons/fi';
+
+import { Question } from '../lib/question';
 import { SettingsContext } from '../context/Settings';
-import { SettingsContextType } from '../@types/settings';
+import { SettingsContextType } from '../types/settings';
 
-type QuestionProps = { question: Question };
+type QuestionProps = { question: Question; submitted: boolean };
 
-const QuestionBox: React.FC<QuestionProps> = ({ question }) => {
+const QuestionBox: React.FC<QuestionProps> = ({ question, submitted }) => {
   const { showTitle, showDifficulty } = React.useContext(SettingsContext) as SettingsContextType;
 
+  const badge = (option: string) => {
+    switch (option) {
+      case 'Easy':
+        return 'green';
+
+      case 'Medium':
+        return 'orange';
+
+      case 'Hard':
+        return 'red';
+
+      default:
+        return 'gray';
+    }
+  };
+
   return (
-    <motion.div
-      className="flex flex-col max-w-2xl max-h-screen px-8 py-4 overflow-y-auto rounded shadow-xl bg-gray-50"
-      initial={{ opacity: 0, y: '50%', scale: 0.5 }}
-      animate={{ y: 0, opacity: 1, scale: 1 }}
-      transition={{ duriation: 0.1, ease: 'easeOut' }}
-      exit={{ opacity: 0, y: '50%' }}
-    >
-      <div className="flex items-center justify-center pb-2 space-x-2 align-top border-b">
-        {showTitle && <span className="text-xl font-bold">{question.title}</span>}
-        {showDifficulty && <Pill text={question.difficulty} />}
-      </div>
-      <div className="text-xs" dangerouslySetInnerHTML={{ __html: question.content }}></div>
-    </motion.div>
+    <Flex flexDirection="column" p="4" bg="white" gap="2" rounded="sm" maxW="2xl" overflowY="scroll">
+      {(showDifficulty || showTitle || submitted) && (
+        <Flex justifyContent="center" alignItems="center" gap="2" borderBottom="1px" borderColor="gray.200">
+          {(showTitle || submitted) && (
+            <Text as="b" fontSize="xg">
+              <Link href={`https://leetcode.com/problems/${question.titleSlug}`} isExternal>
+                <Flex gap="1">
+                  {question.title} <FiExternalLink size="0.8em" />
+                </Flex>
+              </Link>
+            </Text>
+          )}
+          {(showDifficulty || submitted) && (
+            <Badge
+              colorScheme={badge(question.difficulty)}
+              textTransform="capitalize"
+              fontSize="0.6em"
+              fontWeight="semibold"
+              size="sm"
+              rounded="md"
+            >
+              {question.difficulty}
+            </Badge>
+          )}
+        </Flex>
+      )}
+      <Box id="QuestionBox" overflow="scroll" dangerouslySetInnerHTML={{ __html: question.content }}></Box>
+    </Flex>
   );
 };
 

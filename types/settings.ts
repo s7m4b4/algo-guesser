@@ -1,17 +1,12 @@
-import { ActionMeta, MultiValue } from "react-select";
+import { ActionMeta, MultiValue } from 'chakra-react-select';
 
-export type Difficulty = "Easy" | "Medium" | "Hard";
+export type Difficulty = 'Easy' | 'Medium' | 'Hard';
 
-type OnChange = (
-  value: MultiValue<DifficultyOptions>,
-  actionMeta: ActionMeta<DifficultyOptions>
-) => void;
+type OnChange = (value: MultiValue<DifficultyOptions>, actionMeta: ActionMeta<DifficultyOptions>) => void;
 
 export interface DifficultyOptions {
   value: string;
   label: string;
-  color: string;
-  bg: string;
 }
 
 export interface SettingsContextType {

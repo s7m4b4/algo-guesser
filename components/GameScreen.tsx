@@ -1,13 +1,15 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { GameStateContextType } from '../@types/gamestate';
-import { SettingsContextType } from '../@types/settings';
+import { useState } from 'react';
+import { Text, Button, Flex, Heading, Spinner, IconButton, Center, SlideFade } from '@chakra-ui/react';
+import { FiArrowRight } from 'react-icons/fi';
+
+import { GameStateContextType } from '../types/gamestate';
+import { SettingsContextType } from '../types/settings';
 import MultipleChoice from '../components/MultipleChoice';
 import { GameContext } from '../context/GameState';
 import { SettingsContext } from '../context/Settings';
 import { Question } from '../lib/question';
 import QuestionBox from './QuestionBox';
-import Spinner from './Spinner';
 
 export default function GameScreen() {
   const { score, setScore } = React.useContext(GameContext) as GameStateContextType;
@@ -27,13 +29,13 @@ export default function GameScreen() {
     setChoices(choices);
   }
 
-  useEffect(() => {
+  React.useEffect(() => {
     setLoading(true);
     fetchQuestions();
     setLoading(false);
   }, []);
 
-  if (isLoading || !question) return <Spinner />;
+  if (isLoading || !question) return <Spinner color="white" size="xl" />;
 
   const handleAnswers = (answer: string) => {
     if (answers!.includes(answer)) {
@@ -59,41 +61,38 @@ export default function GameScreen() {
   };
 
   return (
-    <div className="flex items-center justify-between">
-      <QuestionBox question={question} />
-
-      <div className="flex flex-col p-4 space-y-4">
-        <div className="flex flex-col space-y-1 text-center text-white">
-          <span className="font-extrabold lg:text-3xl">How would you solve this?</span>
-          <span className="text-xs italic font-semibold">(Select up to {question.topicTags.length})</span>
-        </div>
-
-        <div className="flex flex-col space-y-4">
-          <MultipleChoice
-            selected={answers}
-            choices={choices}
-            question={question}
-            submitted={submitted}
-            click={handleAnswers}
-          />
-          <button
-            disabled={!answers.length || submitted}
-            className="w-full py-2 font-semibold rounded-full bg-gray-50 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
-            onClick={checkAnswer}
-          >
-            Check
-          </button>
-        </div>
-        <div className="flex justify-end">
-          <button
-            disabled={!submitted}
-            className="px-4 py-2 text-2xl text-blue-400 bg-white rounded-full disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
-            onClick={nextRound}
-          >
-            ➜
-          </button>
-        </div>
-      </div>
-    </div>
+    <Flex paddingY="4" gap="2" maxH="100vh" overflowY="scroll">
+      <QuestionBox question={question} submitted={submitted} />
+      <Flex padding="2" justifyContent="center" alignContent="center" flexDirection={'column'} gap="2">
+        <Center flexDirection="column">
+          <Heading as="h4" size={['xs', 'md']} color="white" fontWeight="extrabold">
+            How would you solve this?
+          </Heading>
+          <Text as="i" fontSize="0.6em" color="white">
+            (Select up to {question.topicTags.length})
+          </Text>
+        </Center>
+        <MultipleChoice
+          selected={answers}
+          choices={choices}
+          question={question}
+          submitted={submitted}
+          click={handleAnswers}
+        />
+        <Button disabled={!answers.length || submitted} onClick={checkAnswer}>
+          Check
+        </Button>
+        <Flex justifyContent="end">
+          <SlideFade in={submitted} offsetY="20px">
+            <IconButton
+              icon={<FiArrowRight />}
+              aria-label={'Next Question'}
+              disabled={!submitted}
+              onClick={nextRound}
+            />
+          </SlideFade>
+        </Flex>
+      </Flex>
+    </Flex>
   );
 }

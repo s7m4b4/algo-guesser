@@ -4,7 +4,7 @@
 
 Become more versed in identifying which algothirm to use in programming challenges.
 
-Built with NextJS + TailwindCSS, hosted on Vercel.
+Built with NextJS + ChakraUI, hosted on Vercel.
 
 ###### Features
 

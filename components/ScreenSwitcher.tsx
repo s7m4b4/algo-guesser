@@ -1,7 +1,8 @@
-import { GameState, GameStateContextType } from '../@types/gamestate';
-import GameScreen from './GameScreen';
-import LandingScreen from './LandingScreen';
 import * as React from 'react';
+
+import GameScreen from './GameScreen';
+import { GameState, GameStateContextType } from '../types/gamestate';
+import LandingScreen from './LandingScreen';
 import { GameContext } from '../context/GameState';
 
 const ScreenSwitcher = () => {

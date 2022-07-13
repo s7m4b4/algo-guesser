@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { GameStateContextType } from '../@types/gamestate';
+import { Button, Flex, Heading } from '@chakra-ui/react';
+
+import { GameStateContextType } from '../types/gamestate';
 import { GameContext } from '../context/GameState';
 import Settings from './Settings';
 
@@ -7,19 +9,30 @@ export default function LandingScreen() {
   const { setGameState } = React.useContext(GameContext) as GameStateContextType;
 
   return (
-    <div className="flex flex-col space-y-4">
-      <h1 className="pb-2 text-4xl tracking-widest text-center text-gray-100 border-b-2 border-gray-100 title">
+    <Flex gap="8" direction="column">
+      <Heading
+        as="h1"
+        size="xl"
+        fontFamily="Inter"
+        letterSpacing="6px"
+        borderBottom="2px"
+        color="white"
+        fontWeight="light"
+        textAlign="center"
+      >
         AlgoGuesser
-      </h1>
+      </Heading>
       <Settings />
-      <button
-        className="w-full p-3 bg-white rounded-full"
+      <Button
+        w="full"
+        bgColor="white"
+        color="black"
         onClick={() => {
           setGameState('game');
         }}
       >
-        Start
-      </button>
-    </div>
+        Begin
+      </Button>
+    </Flex>
   );
 }

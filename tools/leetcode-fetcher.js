@@ -1,6 +1,6 @@
-const { writeFileSync } = require("fs");
-const { request } = require("https");
-const { join } = require("path");
+const { writeFileSync } = require('fs');
+const { request } = require('https');
+const { join } = require('path');
 
 const query = `query getQuestionDetail($titleSlug: String!) {
   question(titleSlug: $titleSlug) {
@@ -20,7 +20,7 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function saveData(data) {
   try {
-    const dir = join(__dirname, "../data/", "questions.json");
+    const dir = join(__dirname, '../data/', 'questions.json');
     writeFileSync(dir, JSON.stringify(data, null, 4));
     console.log(`Saved to ${dir}`);
   } catch (err) {
@@ -33,11 +33,11 @@ const httprequest = ({ options, payload }) => {
     const req = request(options, (res) => {
       var body = [];
 
-      res.on("data", (chunk) => {
+      res.on('data', (chunk) => {
         body.push(chunk);
       });
 
-      res.on("end", () => {
+      res.on('end', () => {
         try {
           const result = JSON.parse(Buffer.concat(body).toString());
           resolve(result);
@@ -47,7 +47,7 @@ const httprequest = ({ options, payload }) => {
       });
     });
 
-    req.on("error", (err) => {
+    req.on('error', (err) => {
       reject(err.message);
     });
 
@@ -60,21 +60,20 @@ const httprequest = ({ options, payload }) => {
 async function getQuestionList() {
   const response = await httprequest({
     options: {
-      method: "GET",
-      host: "leetcode.com",
-      path: "/api/problems/algorithms/",
+      method: 'GET',
+      host: 'leetcode.com',
+      path: '/api/problems/algorithms/',
       port: 443,
       headers: {
-        "Content-Type": "application/json",
-        Referer: "https://leetcode.com/",
-      },
-    },
+        'Content-Type': 'application/json',
+        Referer: 'https://leetcode.com/'
+      }
+    }
   });
 
   // remove preimum questions
   const results = response.stat_status_pairs.reduce(
-    (acc, question) =>
-      !question.paid_only ? [...acc, question.stat.question__title_slug] : acc,
+    (acc, question) => (!question.paid_only ? [...acc, question.stat.question__title_slug] : acc),
     []
   );
 
@@ -91,29 +90,29 @@ async function getQuestionDetail(questions) {
 
       const response = await httprequest({
         options: {
-          method: "POST",
-          host: "leetcode.com",
-          path: "/graphql",
+          method: 'POST',
+          host: 'leetcode.com',
+          path: '/graphql',
           port: 443,
           headers: {
-            "Content-Type": "application/json",
-            Referer: "https://leetcode.com/",
-          },
+            'Content-Type': 'application/json',
+            Referer: 'https://leetcode.com/'
+          }
         },
         payload: JSON.stringify({
           query: query,
-          variables: { titleSlug: title },
-        }),
+          variables: { titleSlug: title }
+        })
       });
 
       const question = response.data.question;
       if (question.topicTags.length) {
         const data = {
           title: question.title,
-          content: question.content.replace(/<img .*?>/g, ""), // remove img tags avoid hotlinking
+          content: question.content.replaceAll(/<img .*?>/g, ''), // remove img tags avoid hotlinking
           difficulty: question.difficulty,
-          topicTags: question.topicTags.map((topic) => topic["name"]),
-          titleSlug: question.titleSlug,
+          topicTags: question.topicTags.map((topic) => topic['name']),
+          titleSlug: question.titleSlug
         };
 
         return data;
