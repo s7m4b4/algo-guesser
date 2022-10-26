@@ -61,7 +61,7 @@ export default function GameScreen() {
   };
 
   return (
-    <Flex paddingY="4" gap="2" maxH="100vh" overflowY="scroll">
+    <Flex paddingY="4" gap="2" maxH="100vh" overflowY="auto">
       <QuestionBox question={question} submitted={submitted} />
       <Flex padding="2" justifyContent="center" alignContent="center" flexDirection={'column'} gap="2">
         <Center flexDirection="column">

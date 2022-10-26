@@ -44,7 +44,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ click, choices, selecte
   };
 
   return (
-    <SimpleGrid padding="1" overflowY="scroll" columns={{ sm: 1, md: 2 }} spacing="4">
+    <SimpleGrid padding="1" overflowY="auto" columns={{ sm: 1, md: 2 }} spacing="4">
       {choices.map((choice: string) => (
         <Button
           disabled={submitted || (selected.length >= question.topicTags.length && !selected.includes(choice))}

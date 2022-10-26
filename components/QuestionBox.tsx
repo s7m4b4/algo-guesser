@@ -28,7 +28,7 @@ const QuestionBox: React.FC<QuestionProps> = ({ question, submitted }) => {
   };
 
   return (
-    <Flex flexDirection="column" p="4" bg="white" gap="2" rounded="sm" maxW="2xl" overflowY="scroll">
+    <Flex flexDirection="column" p="4" bg="white" gap="2" rounded="sm" maxW="2xl" overflowY="auto">
       {(showDifficulty || showTitle || submitted) && (
         <Flex justifyContent="center" alignItems="center" gap="2" borderBottom="1px" borderColor="gray.200">
           {(showTitle || submitted) && (
@@ -54,7 +54,7 @@ const QuestionBox: React.FC<QuestionProps> = ({ question, submitted }) => {
           )}
         </Flex>
       )}
-      <Box id="QuestionBox" overflow="scroll" dangerouslySetInnerHTML={{ __html: question.content }}></Box>
+      <Box id="QuestionBox"  dangerouslySetInnerHTML={{ __html: question.content }}></Box>
     </Flex>
   );
 };
