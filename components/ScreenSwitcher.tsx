@@ -14,6 +14,7 @@ const ScreenSwitcher = () => {
         return <LandingScreen />;
       case 'game':
         return <GameScreen />;
+
       default:
         return <LandingScreen />;
     }

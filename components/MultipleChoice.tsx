@@ -17,50 +17,43 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ click, choices, selecte
       return {};
     }
 
-    if (question.topicTags.includes(choice)) {
-      return {
-        pointerEvents: 'none',
-        backgroundColor: 'green.300',
-        borderColor: 'green.400',
-        color: 'green.800'
-      };
-    } else {
-      return { pointerEvents: 'none', backgroundColor: 'red.300', borderColor: 'red.400', color: 'red.800' };
-    }
+    return question.topicTags.includes(choice)
+      ? {
+          pointerEvents: 'none',
+          backgroundColor: 'green.300',
+          borderColor: 'green.400',
+          color: 'green.800'
+        }
+      : { pointerEvents: 'none', backgroundColor: 'red.300', borderColor: 'red.400', color: 'red.800' };
   };
 
   const icon = (choice: string) => {
-    if (selected.includes(choice)) {
-      if (submitted && question.topicTags.includes(choice) && selected.includes(choice)) {
-        return <FiCheckCircle />;
-      }
-      return <FiDisc />;
-    } else {
-      if (submitted && !question.topicTags.includes(choice)) {
-        return <FiXCircle />;
-      }
-      return <FiCircle />;
+    const isSelected = selected.includes(choice);
+    const isCorrect = question.topicTags.includes(choice);
+
+    if (isSelected && submitted) {
+      return isCorrect ? <FiCheckCircle /> : <FiXCircle />;
     }
+    return isSelected ? <FiDisc /> : <FiCircle />;
   };
 
   return (
     <SimpleGrid padding="1" overflowY="auto" columns={{ sm: 1, md: 2 }} spacing="4">
       {choices.map((choice: string) => (
         <Button
-          disabled={submitted || (selected.length >= question.topicTags.length && !selected.includes(choice))}
+          isDisabled={submitted || (selected.length >= question.topicTags.length && !selected.includes(choice))}
           rightIcon={icon(choice)}
-          rounded="sm"
+          rounded="md"
           justifyContent="space-between"
-          border="1px"
+          border="2px"
           color="black"
           padding={['1.5', '2']}
-          bg="white"
           bgColor={correctAnswers(choice)}
           onClick={() => click(choice)}
           key={choice}
-          sx={{ _disabled: correctAnswers(choice) }}
+          sx={correctAnswers(choice)}
         >
-          <Text noOfLines={1} fontSize={['0.5em', 'xs']}>
+          <Text noOfLines={1} fontSize={['xs']}>
             {choice}
           </Text>
         </Button>
