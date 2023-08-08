@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { DifficultyOptions, SettingsContextType } from '../types/settings';
-import { difficultyOptions } from '../components/Settings';
+import { QuizMode, SelectOptions, SettingsContextType } from '../types/settings';
+import { defaultTopicsOptions, difficultyOptions } from '../components/Settings';
 
 export const SettingsContext = React.createContext<SettingsContextType | null>(null);
 
@@ -10,9 +10,13 @@ type SettingsProviderProps = {
 };
 
 const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) => {
-  const [showDifficulty, setShowDifficulty] = React.useState(false);
-  const [showTitle, setShowTitle] = React.useState(false);
-  const [difficulty, setDifficulty] = React.useState<DifficultyOptions[]>(difficultyOptions);
+  const [showDifficulty, setShowDifficulty] = React.useState(true);
+  const [showTitle, setShowTitle] = React.useState(true);
+  const [difficulty, setDifficulty] = React.useState<SelectOptions[]>(difficultyOptions);
+  const [mode, setMode] = React.useState<SelectOptions>({ value: QuizMode.Endless, label: 'Endless' });
+  const [numQuestions, setNumQuestions] = React.useState<number>(10);
+  const [topics, setTopics] = React.useState<SelectOptions[]>(defaultTopicsOptions);
+  const [timer, setTimer] = React.useState<number>(60);
 
   const handleShowDifficulty = () => {
     setShowDifficulty(!showDifficulty);
@@ -26,9 +30,43 @@ const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) => {
     setDifficulty(value);
   };
 
+  const handleMode = (selectedOption: any) => {
+    setMode(selectedOption);
+  };
+
+  const handleNumQuestions = (valueStr: string, valueInt: number) => {
+    if (valueStr !== '') {
+      setNumQuestions(valueInt);
+    }
+  };
+
+  const handleTopics = (topic: any) => {
+    setTopics(topic);
+  };
+
+  const handleTimer = (valueStr: string, valueInt: number) => {
+    setTimer(valueInt);
+  };
+
   return (
     <SettingsContext.Provider
-      value={{ showDifficulty, handleShowDifficulty, showTitle, handleShowTitle, difficulty, handleDifficulty }}
+      value={{
+        showDifficulty,
+        handleShowDifficulty,
+        showTitle,
+        handleShowTitle,
+        difficulty,
+        handleDifficulty,
+        mode,
+        handleMode,
+        numQuestions,
+        handleNumQuestions,
+        topics,
+        handleTopics,
+        timer,
+        handleTimer,
+        setTimer
+      }}
     >
       {children}
     </SettingsContext.Provider>

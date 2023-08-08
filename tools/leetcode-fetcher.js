@@ -1,6 +1,5 @@
-const { writeFileSync } = require('fs');
 const { request } = require('https');
-const { join } = require('path');
+const { saveData } = require('./common');
 
 const query = `query getQuestionDetail($titleSlug: String!) {
   question(titleSlug: $titleSlug) {
@@ -17,16 +16,6 @@ const query = `query getQuestionDetail($titleSlug: String!) {
 `;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-function saveData(data) {
-  try {
-    const dir = join(__dirname, '../data/', 'questions.json');
-    writeFileSync(dir, JSON.stringify(data, null, 4));
-    console.log(`Saved to ${dir}`);
-  } catch (err) {
-    console.error(err);
-  }
-}
 
 const httprequest = ({ options, payload }) => {
   return new Promise((resolve, reject) => {
@@ -117,7 +106,7 @@ async function getQuestionDetail(questions) {
 
         return data;
       } else {
-        console.error(`${q} has no topic tags, skipping.`);
+        console.error(`${question.title} has no topic tags, skipping.`);
       }
     })
   );
@@ -127,5 +116,5 @@ async function getQuestionDetail(questions) {
 (async function main() {
   const questions = await getQuestionList();
   const results = await getQuestionDetail(questions);
-  saveData(results);
+  saveData(results, 'questions.json');
 })();

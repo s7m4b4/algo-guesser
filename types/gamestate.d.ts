@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-export type GameState = "landing" | "game" | "end";
+export type GameState = 'landing' | 'game' | 'end';
 
 export interface GameStateContextType {
   gameState: GameState;

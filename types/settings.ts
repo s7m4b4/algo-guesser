@@ -2,11 +2,18 @@ import { ActionMeta, MultiValue } from 'chakra-react-select';
 
 export type Difficulty = 'Easy' | 'Medium' | 'Hard';
 
-type OnChange = (value: MultiValue<DifficultyOptions>, actionMeta: ActionMeta<DifficultyOptions>) => void;
+export enum QuizMode {
+  Endless = 'endless',
+  Timed = 'timed',
+  Fixed = 'fixed'
+}
 
-export interface DifficultyOptions {
+type OnChange<T> = (value: MultiValue<T>, actionMeta: ActionMeta<T>) => void;
+
+export interface SelectOptions {
   value: string;
   label: string;
+  colorScheme?: string;
 }
 
 export interface SettingsContextType {
@@ -14,6 +21,15 @@ export interface SettingsContextType {
   handleShowDifficulty: () => void;
   showTitle: boolean;
   handleShowTitle: () => void;
-  difficulty: DifficultyOptions[];
-  handleDifficulty: OnChange;
+  difficulty: SelectOptions[];
+  handleDifficulty: OnChange<SelectOptions>;
+  mode: SelectOptions;
+  handleMode: (selectedOption: any) => void;
+  numQuestions: number;
+  handleNumQuestions: (valueStr: string, valueInt: number) => void;
+  topics: SelectOptions[];
+  handleTopics: (topic: any) => void;
+  timer: number;
+  handleTimer: (valueStr: string, valueInt: number) => void;
+  setTimer: any;
 }
