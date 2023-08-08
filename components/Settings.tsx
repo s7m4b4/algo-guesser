@@ -14,12 +14,12 @@ import {
 } from '@chakra-ui/react';
 import { Select } from 'chakra-react-select';
 
-import { DifficultyOptions, SettingsContextType, QuizMode } from '../types/settings';
+import { SettingsContextType, QuizMode, SelectOptions } from '../types/settings';
 import { SettingsContext } from '../context/Settings';
 import { categories, totalQuestions } from '../lib/question';
 import { defaultTopics } from '../constants';
 
-export const difficultyOptions: DifficultyOptions[] = [
+export const difficultyOptions: SelectOptions[] = [
   { value: 'Easy', label: 'Easy', colorScheme: 'green' },
   { value: 'Medium', label: 'Medium', colorScheme: 'orange' },
   { value: 'Hard', label: 'Hard', colorScheme: 'red' }
@@ -49,16 +49,6 @@ const Settings: React.FC = () => {
     timer,
     handleTimer
   } = React.useContext(SettingsContext) as SettingsContextType;
-
-  //React.useEffect(() => {
-  //  localStorage.setItem('showDifficulty', JSON.stringify(showDifficulty));
-  //  localStorage.setItem('showTitle', JSON.stringify(showTitle));
-  //  localStorage.setItem('difficulty', JSON.stringify(difficulty));
-  //  localStorage.setItem('mode', JSON.stringify(mode));
-  //  localStorage.setItem('numQuestions', JSON.stringify(numQuestions));
-  //  localStorage.setItem('topics', JSON.stringify(topics));
-  //  localStorage.setItem('timer', JSON.stringify(timer));
-  //}, [showDifficulty, showTitle, difficulty, mode, numQuestions, topics, timer]);
 
   return (
     <Flex bg="white" rounded="md" shadow="md" padding="4" w={['xs', 'sm']}>
